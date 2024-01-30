@@ -38,7 +38,7 @@ const items: MenuProps['items'] = [
 
 export const HeaderComponent = () => {
   return (
-    <Header>
+    <Header style={{ backgroundColor: 'white' }}>
       <div style={{
           display: 'flex',
           justifyContent: 'space-between'
