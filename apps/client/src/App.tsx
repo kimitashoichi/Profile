@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/util/Header';
 import { Top } from './components/top-section/index';
 import { CarrierSection } from './components/carrier-section/index';
 import { SkillMapComponent } from './components/skill-map-section/index';
+import { BlogComponent } from './components/blog-section/index';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Top />
       <CarrierSection />
       <SkillMapComponent />
+      <BlogComponent />
     </div>
   );
 }
