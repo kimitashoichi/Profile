@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Layout, Steps, Typography, Row, Col, Modal } from "antd";
+import { Layout, Steps, Typography, Row, Col } from "antd";
 import { AlertOutlined, LaptopOutlined, RocketOutlined, FireOutlined, SyncOutlined } from '@ant-design/icons';
 import { Born } from './carrier-detail/Born';
-
-const { Step } = Steps;
-
-// modal
+import { School } from './carrier-detail/School';
+import { StartEngineer } from './carrier-detail/StartEngineer';
+import { HometownTax } from './carrier-detail/HometownTax';
+import { Now } from './carrier-detail/Now';
 
 const { Content } = Layout;
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title } = Typography;
 
 const ITEMS = [
   {
@@ -32,49 +32,30 @@ const ITEMS = [
     icon: <SyncOutlined />
   },
   {
-    title: '2024年',
+    title: '2023年',
     description: '不動産テック企業へ転職、フルスタックに開発業務へ従事',
     icon: <FireOutlined />
   },
 ]
 
-
-const Step1Content = () => (
-  <div>
-    Step 1 Content
-  </div>
-);
-
-const Step2Content = () => (
-  <div>
-    Step 2 Content
-  </div>
-);
-
-const Step3Content = () => (
-  <div>
-    Step 3 Content
-  </div>
-);
-
-
 export const CarrierSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const onChange = (value: number) => {
-    // 引数はステップアイテム配列のindex番号だけを受け取ることができる
-    console.log('onChange:', value);
     setCurrent(value);
   };
-
 
   const renderStepContent = () => {
     switch (current) {
       case 0:
         return <Born />;
       case 1:
-        return <Step2Content />;
+        return <School />;
       case 2:
-        return <Step3Content />;
+        return <StartEngineer />;
+      case 3:
+        return <HometownTax />;
+      case 4:
+        return <Now />;
       default:
         return null;
     }
@@ -84,7 +65,7 @@ export const CarrierSection: React.FC = () => {
     <Layout>
       <Content>
         <Row justify='center'>
-          <Col span={10} offset={1}>
+          <Col span={8} offset={2}>
             <Title>Carrier</Title>
             <Steps
               onChange={onChange}
@@ -94,7 +75,7 @@ export const CarrierSection: React.FC = () => {
               items={ITEMS}
             />
           </Col>
-          <Col span={10} offset={1}>
+          <Col span={8} offset={2}>
             <Title>Details</Title>
             {renderStepContent()}
           </Col>
