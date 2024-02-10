@@ -1,0 +1,6 @@
+{
+  "workspaces": [
+    "apps/*"
+  ],
+  "private": true
+}
