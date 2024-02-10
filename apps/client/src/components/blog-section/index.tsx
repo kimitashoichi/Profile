@@ -1,6 +1,8 @@
 import React from "react";
 import { Layout, Button, Card, Flex, Typography, Col, Row } from 'antd';
 
+const { Title, Paragraph, Text, Link } = Typography;
+
 const cardStyle: React.CSSProperties = {
   width: 620,
 };
@@ -17,6 +19,7 @@ const imgStyle: React.CSSProperties = {
 export const BlogComponent = () => {
   return (
     <Layout>
+      <Title>Blogs</Title>
       <Row>
         <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 1 }}>
           <Card hoverable style={cardStyle} bodyStyle={{ padding: 0, overflow: 'hidden' }}>

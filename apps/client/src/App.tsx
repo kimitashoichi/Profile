@@ -7,6 +7,7 @@ import { Top } from './components/top-section/index';
 import { CarrierSection } from './components/carrier-section/index';
 import { SkillMapComponent } from './components/skill-map-section/index';
 import { BlogComponent } from './components/blog-section/index';
+import { ContactComponent } from './components/contact-section/index';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <CarrierSection />
       <SkillMapComponent />
       <BlogComponent />
+      <ContactComponent />
     </div>
   );
 }
