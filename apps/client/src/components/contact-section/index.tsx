@@ -40,7 +40,7 @@ export const ContactComponent = () => {
           gutter={16}
           justify='center'
         >
-          <Col span={12} offset={4}>
+          <Col span={20} offset={4}>
             <Title>Contact</Title>
             {/* 必須：名前 */}
             <Controller
