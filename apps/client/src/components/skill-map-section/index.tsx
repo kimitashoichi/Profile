@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Layout, Progress, Typography, Col, Row, Flex } from 'antd';
+import { Layout, Progress, Typography, Col, Row, Flex, Divider } from 'antd';
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -76,10 +76,10 @@ const circleStyle: CSSProperties = {
 
 export const SkillMapComponent = () => {
   return (
-    <Layout>
+    <Layout style={{ paddingTop: 50 }}>
       <Title style={{ width: '90%', margin: '24px auto 0' }}>Skill Map</Title>
       <Content style={{ margin: '0 auto', width: '90%' }}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row >
           {LANGUAGE_LIST.map((language) => {
             return (
               <Col span={8} style={style}>
@@ -93,7 +93,7 @@ export const SkillMapComponent = () => {
                     style={circleStyle}
                     strokeColor={conicColors}
                   />
-                  <Flex vertical style={{ padding: 32 }}>
+                  <Flex vertical style={{ padding: 24 }}>
                     <Title level={3}>{language.name}</Title>
                     <Paragraph style={{ marginBottom: 0 }}>経験年数：{language.experience}年</Paragraph>
                     <ul style={{ padding: 0 }}>
@@ -111,7 +111,7 @@ export const SkillMapComponent = () => {
           })}
         </Row>
       </Content>
-
+      <Divider style={{ width: '90%' }} />
       <Content style={{ margin: '0 auto', width: '90%' }}>
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           {TECHNOLOGY_LIST.map((item) => {

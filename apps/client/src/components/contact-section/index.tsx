@@ -33,14 +33,14 @@ export const ContactComponent = () => {
       <Form
         onFinish={handleSubmit(onSubmit)}
         layout="vertical"
-        wrapperCol={{ sm: { span: 16 }, md: { span: 16 } }}
-        labelCol={{ sm: { span: 8 }, md: { span: 8 } }}
+        wrapperCol={{ span: 14 }}
+        style={{ padding: '50px 0' }}
       >
         <Row
-          gutter={16}
           justify='center'
+          align='middle'
         >
-          <Col span={20} offset={4}>
+          <Col span={16} offset={6}>
             <Title>Contact</Title>
             {/* 必須：名前 */}
             <Controller
