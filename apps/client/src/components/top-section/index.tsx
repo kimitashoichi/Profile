@@ -1,17 +1,10 @@
 import React from 'react'
-import { Layout, Col, Row } from 'antd'
-import { ArrowDownOutlined } from '@ant-design/icons'
-import { useSpring, animated } from '@react-spring/web'
+import { Layout, Col, Row, Image, Typography } from 'antd'
 
 const { Content } = Layout;
+const { Title, Paragraph } = Typography;
 
 export const Top = () => {
-  const props = useSpring({
-    from: { transform: 'translateY(-100%)' },
-    to: { transform: 'translateY(0)' },
-    config: { tension: 300, friction: 20 },
-    loop: true,
-  })
 
   return (
     <Layout style={{
@@ -19,31 +12,21 @@ export const Top = () => {
       position: 'relative'
     }}>
       <Content>
-        <Row>
-          <Col span={14}>
-            <div style={{
-              margin: '0 20%'
-            }}>
-              <h1>Sampleサイトタイトル</h1>
-              <p>サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト</p>
-            </div>
-          </Col>
+        <Row
+          align='middle' justify='center'>
           <Col span={10}>
-            <img src='/logo192.png' />
+            <Title level={1}>Welcome To My Profile Site!</Title>
+            <Title level={3}>フルスタック技術で成長し続ける<br />自走型エンジニア</Title>
+            <Paragraph>プログラミングスクールからエンジニアに転職し、現在は不動産マッチングプラットフォームのWEBアプリケーションをフルスタックに開発しています。フロントエンド、バックエンド、インフラまで幅広く対応し、常に新しい技術を学びながら成長し続けています。</Paragraph>
+          </Col>
+          <Col span={8} offset={1}>
+            <Image
+              src='/profile.png'
+              preview={false}
+              style={{ borderRadius: '32px' }}
+            />
           </Col>
         </Row>
-        <ArrowDownOutlined
-          style={{
-            position: 'absolute',
-            bottom: 24,
-            right: '50%'
-          }}
-        />
-        <animated.div style={props}>
-          <div style={{ width: '100px', height: '100px', backgroundColor: 'blue' }}>
-            Bouncing Content
-          </div>
-        </animated.div>
       </Content>
     </Layout>
   )
