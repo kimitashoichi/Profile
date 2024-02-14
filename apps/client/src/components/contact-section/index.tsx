@@ -2,6 +2,8 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Form, Input, Typography, Row, Col } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
+import useMediaQuery from 'use-media-antd-query';
+
 
 // TODO: React Hook　Formでフォーム作成
 // sendgridを利用して自分のGメールに転送するAPIを作成
@@ -19,6 +21,7 @@ interface FormValue {
 
 
 export const ContactComponent = () => {
+  const colSize = useMediaQuery();
   const {
     control,
     handleSubmit
@@ -33,14 +36,14 @@ export const ContactComponent = () => {
       <Form
         onFinish={handleSubmit(onSubmit)}
         layout="vertical"
-        wrapperCol={{ span: 14 }}
+        wrapperCol={{ span: 12 }}
         style={{ padding: '50px 0' }}
       >
         <Row
-          justify='center'
+          justify={{ xs: 'start', lg: 'center', xl: 'center' }}
           align='middle'
         >
-          <Col span={16} offset={6}>
+          <Col xs={20} lg={18} xl={18} offset={colSize === 'lg' || colSize === 'xl' ? 8 : 2}>
             <Title>Contact</Title>
             {/* 必須：名前 */}
             <Controller
@@ -138,7 +141,7 @@ export const ContactComponent = () => {
             />
 
             <Row justify="center">
-              <Col span={18} offset={6}>
+              <Col xl={18} lg={18} xs={12} offset={colSize === 'lg' || colSize === 'xl' ? 6 : 4}>
                 <Form.Item>
                   <Button
                     type="primary"
