@@ -68,7 +68,7 @@ export const CarrierSection: React.FC = () => {
     <Layout>
       <Content>
         <Row justify='center'>
-          <Col lg={8} xl={8} xs={20} offset={colSize === ('lg' || 'xl') ? 2 : 0}>
+          <Col lg={8} xl={8} xs={20} offset={colSize === 'lg' || colSize === 'xl' ? 2 : 0}>
             <Title>Carrier</Title>
             <Steps
               onChange={onChange}
@@ -78,7 +78,7 @@ export const CarrierSection: React.FC = () => {
               items={ITEMS}
             />
           </Col>
-          <Col lg={8} xl={8} xs={20} offset={colSize === ('lg' || 'xl') ? 2 : 0}>
+          <Col lg={8} xl={8} xs={20} offset={colSize === 'lg' || colSize === 'xl' ? 2 : 0}>
             <Title>Details</Title>
             {renderStepContent()}
           </Col>
