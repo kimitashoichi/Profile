@@ -6,6 +6,7 @@ import { School } from './carrier-detail/School';
 import { StartEngineer } from './carrier-detail/StartEngineer';
 import { HometownTax } from './carrier-detail/HometownTax';
 import { Now } from './carrier-detail/Now';
+import useMediaQuery from 'use-media-antd-query';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -40,6 +41,8 @@ const ITEMS = [
 
 export const CarrierSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
+  // "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
+  const colSize = useMediaQuery();
   const onChange = (value: number) => {
     setCurrent(value);
   };
@@ -65,7 +68,7 @@ export const CarrierSection: React.FC = () => {
     <Layout>
       <Content>
         <Row justify='center'>
-          <Col span={8} offset={2}>
+          <Col lg={8} xs={20} offset={colSize === 'lg' ? 2 : 0}>
             <Title>Carrier</Title>
             <Steps
               onChange={onChange}
@@ -75,7 +78,7 @@ export const CarrierSection: React.FC = () => {
               items={ITEMS}
             />
           </Col>
-          <Col span={8} offset={2}>
+          <Col lg={8} xs={20} offset={colSize === 'lg' ? 2 : 0}>
             <Title>Details</Title>
             {renderStepContent()}
           </Col>

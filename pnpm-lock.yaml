@@ -55,6 +55,9 @@ importers:
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
+      use-media-antd-query:
+        specifier: ^1.1.0
+        version: 1.1.0(react@18.2.0)
       web-vitals:
         specifier: ^2.1.4
         version: 2.1.4
@@ -10897,6 +10900,14 @@ packages:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
+    dev: false
+
+  /use-media-antd-query@1.1.0(react@18.2.0):
+    resolution: {integrity: sha512-B6kKZwNV4R+l4Rl11sWO7HqOay9alzs1Vp1b4YJqjz33YxbltBCZtt/yxXxkXN9rc1S7OeEL/GbwC30Wmqhw6Q==}
+    peerDependencies:
+      react: '>=16.9.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /util-deprecate@1.0.2:
