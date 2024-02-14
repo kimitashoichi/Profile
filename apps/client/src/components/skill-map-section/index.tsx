@@ -82,8 +82,7 @@ export const SkillMapComponent = () => {
         <Row >
           {LANGUAGE_LIST.map((language) => {
             return (
-              <Col span={8} style={style}>
-
+              <Col xs={24} lg={8} style={style}>
                 {/* TODO: スキル表示コンポーネントに切り出す */}
                 <Flex>
                   <Progress
@@ -113,10 +112,10 @@ export const SkillMapComponent = () => {
       </Content>
       <Divider style={{ width: '90%' }} />
       <Content style={{ margin: '0 auto', width: '90%' }}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row >
           {TECHNOLOGY_LIST.map((item) => {
             return (
-              <Col span={8} style={style}>
+              <Col xs={24} lg={8} style={style}>
 
                 {/* TODO: スキル表示コンポーネントに切り出す */}
                 <Flex>
