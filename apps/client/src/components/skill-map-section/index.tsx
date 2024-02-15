@@ -76,7 +76,7 @@ const circleStyle: CSSProperties = {
 
 export const SkillMapComponent = () => {
   return (
-    <Layout style={{ paddingTop: 50 }}>
+    <Layout id='skills' style={{ paddingTop: 50 }}>
       <Title style={{ width: '90%', margin: '24px auto 0' }}>Skill Map</Title>
       <Content style={{ margin: '0 auto', width: '90%' }}>
         <Row >

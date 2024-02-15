@@ -3,6 +3,7 @@ import { Layout } from 'antd';
 import { MenuProps, Menu, Drawer, Button } from 'antd';
 import { CodeOutlined, DesktopOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
+import { scroller } from 'react-scroll';
 
 
 const { Header } = Layout;
@@ -17,11 +18,12 @@ const items: MenuProps['items'] = [
     key: 'skills',
     icon: <CodeOutlined />,
   },
-  {
-    label: 'Achievements',
-    key: 'achievements',
-    icon: <DesktopOutlined />,
-  },
+  // NOTE: 成果物ができあがれば追加するセクション
+  // {
+  //   label: 'Achievements',
+  //   key: 'achievements',
+  //   icon: <DesktopOutlined />,
+  // },
   {
     label: 'Blogs',
     key: 'blogs',
@@ -41,6 +43,23 @@ export const HeaderComponent = () => {
   // "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
   const colSize = useMediaQuery();
   console.log(colSize)
+
+  const handleClick = (e: any) => {
+    const itemId = e.key;
+    if (itemId) {
+      scrollTo(itemId);
+      toggleDrawer();
+    }
+  };
+
+  const scrollTo = (itemId: string) => {
+    scroller.scrollTo(itemId, {
+      duration: 800,
+      delay: 0,
+      smooth: "easeInOutQuart",
+      offset: -46
+    });
+  }
 
   const toggleDrawer = () => {
     setDrawerVisible(!drawerVisible);
@@ -71,6 +90,7 @@ export const HeaderComponent = () => {
               justifyContent: 'end',
               flex: "auto"
             }}
+            onClick={handleClick}
           />
         </>
         :
@@ -93,7 +113,7 @@ export const HeaderComponent = () => {
             onClose={toggleDrawer}
             open={drawerVisible}
           >
-            <Menu mode="vertical" items={items} />
+            <Menu mode="vertical" items={items} onClick={handleClick} />
           </Drawer>
         </>
       }
