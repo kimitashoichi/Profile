@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, List, Skeleton, Typography } from 'antd';
+import { Avatar, Button, Layout, List, Skeleton, Typography } from 'antd';
 
 const { Title } = Typography;
 
@@ -189,7 +189,7 @@ export const BlogComponent: React.FC = () => {
     ) : null;
 
   return (
-    <>
+    <Layout id='blogs'>
       <Title style={{ width: '70%', margin: '1em auto' }}>Blogs</Title>
       <List
         className="demo-loadmore-list"
@@ -215,6 +215,6 @@ export const BlogComponent: React.FC = () => {
           </List.Item>
         )}
       />
-    </>
+    </Layout>
   );
 };

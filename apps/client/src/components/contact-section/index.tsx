@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { Button, Form, Input, Typography, Row, Col } from 'antd';
+import { Button, Form, Input, Typography, Row, Col, Layout } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
 
@@ -32,7 +32,7 @@ export const ContactComponent = () => {
   }
 
   return (
-    <>
+    <Layout id='contact'>
       <Form
         onFinish={handleSubmit(onSubmit)}
         layout="vertical"
@@ -141,7 +141,7 @@ export const ContactComponent = () => {
             />
 
             <Row justify="center">
-              <Col xl={18} lg={18} xs={12} offset={colSize === 'lg' || colSize === 'xl' ? 6 : 4}>
+              <Col xl={20} lg={20} xs={12} offset={colSize === 'lg' || colSize === 'xl' ? 6 : 4}>
                 <Form.Item>
                   <Button
                     type="primary"
@@ -159,6 +159,6 @@ export const ContactComponent = () => {
           </Col>
         </Row>
       </Form>
-    </>
+    </Layout>
   )
 }

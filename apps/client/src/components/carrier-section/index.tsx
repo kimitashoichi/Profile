@@ -65,11 +65,11 @@ export const CarrierSection: React.FC = () => {
   };
 
   return (
-    <Layout>
+    <Layout id="career">
+      <Title style={{ width: '90%', margin: '24px auto' }}>Carrier</Title>
       <Content>
         <Row justify='center'>
           <Col lg={8} xl={8} xs={20} offset={colSize === 'lg' || colSize === 'xl' ? 2 : 0}>
-            <Title>Carrier</Title>
             <Steps
               onChange={onChange}
               responsive
@@ -79,7 +79,6 @@ export const CarrierSection: React.FC = () => {
             />
           </Col>
           <Col lg={8} xl={8} xs={20} offset={colSize === 'lg' || colSize === 'xl' ? 2 : 0}>
-            <Title>Details</Title>
             {renderStepContent()}
           </Col>
         </Row>
