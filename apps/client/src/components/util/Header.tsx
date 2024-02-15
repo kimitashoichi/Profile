@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Layout } from 'antd';
 import { MenuProps, Menu, Drawer, Button } from 'antd';
-import { CodeOutlined, DesktopOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { CodeOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
 import { scroller } from 'react-scroll';
 

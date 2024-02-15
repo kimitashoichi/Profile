@@ -43,7 +43,7 @@ export const ContactComponent = () => {
           justify={{ xs: 'start', lg: 'center', xl: 'center' }}
           align='middle'
         >
-          <Col xs={20} lg={18} xl={18} offset={colSize === 'lg' || colSize === 'xl' ? 8 : 2}>
+          <Col xs={20} lg={18} xl={18} offset={colSize === 'lg' || colSize === 'xl' ? 10 : 2}>
             <Title>Contact</Title>
             {/* 必須：名前 */}
             <Controller
@@ -140,8 +140,8 @@ export const ContactComponent = () => {
               )}
             />
 
-            <Row justify="center">
-              <Col xl={20} lg={20} xs={12} offset={colSize === 'lg' || colSize === 'xl' ? 6 : 4}>
+            <Row justify="start">
+              <Col xl={20} lg={20} xs={12} offset={colSize === 'lg' || colSize === 'xl' ? 4 : 4}>
                 <Form.Item>
                   <Button
                     type="primary"
