@@ -1,117 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Layout, List, Skeleton, Typography } from 'antd';
+import { qiitaItemsResponse } from '../../schema/index';
+import { SafeParseSuccess } from 'zod';
+import axios, { AxiosResponse } from 'axios';
 
 const { Title } = Typography;
-
-interface User {
-  id: number;
-  name: string;
-  profile_image_url: string;
-}
-
-interface Article {
-  id: number;
-  title: string;
-  body: string;
-  user: User;
-  tags: string[];
-  created_at: string; // ISO 8601形式の文字列として定義されていますが、必要に応じてDate型に変換することもできます
-  updated_at: string; // 同様にISO 8601形式の文字列です
-  likes_count: number;
-  comments_count: number;
-  private: boolean;
-  loading: boolean
-}
-
-
 const count = 3;
-const mockQiitaData = {
-  "items": [
-    {
-      "id": 1234567890,
-      "title": "記事のタイトル1",
-      "body": "記事の本文1",
-      "user": {
-        "id": 1234567890,
-        "name": "ユーザー名1",
-        "profile_image_url": "https://placehold.jp/150x150.png"
-      },
-      "tags": [
-        "タグ1",
-        "タグ2"
-      ],
-      "created_at": "2023-02-11T12:34:56.789Z",
-      "updated_at": "2023-02-11T12:34:56.789Z",
-      "likes_count": 10,
-      "comments_count": 5,
-      "private": false
-    },
-    {
-      "id": 1234567891,
-      "title": "記事のタイトル2",
-      "body": "記事の本文2",
-      "user": {
-        "id": 1234567891,
-        "name": "ユーザー名2",
-        "profile_image_url": "https://placehold.jp/150x150.png"
-      },
-      "tags": [
-        "タグ3",
-        "タグ4"
-      ],
-      "created_at": "2023-02-11T12:35:00.000Z",
-      "updated_at": "2023-02-11T12:35:00.000Z",
-      "likes_count": 11,
-      "comments_count": 6,
-      "private": true
-    },
-    {
-      "id": 1234567892,
-      "title": "記事のタイトル3",
-      "body": "記事の本文3",
-      "user": {
-        "id": 1234567892,
-        "name": "ユーザー名3",
-        "profile_image_url": "https://placehold.jp/150x150.png"
-      },
-      "tags": [
-        "タグ5",
-        "タグ6"
-      ],
-      "created_at": "2023-02-11T12:35:03.211Z",
-      "updated_at": "2023-02-11T12:35:03.211Z",
-      "likes_count": 12,
-      "comments_count": 7,
-      "private": false
-    },
-    {
-      "id": 1234567893,
-      "title": "記事のタイトル4",
-      "body": "記事の本文4",
-      "user": {
-        "id": 1234567893,
-        "name": "ユーザー名4",
-        "profile_image_url": "https://placehold.jp/150x150.png"
-      },
-      "tags": [
-        "タグ7",
-        "タグ8"
-      ],
-      "created_at": "2023-02-11T12:35:06.422Z",
-      "updated_at": "2023-02-11T12:35:06.422Z",
-      "likes_count": 13,
-      "comments_count": 8,
-      "private": true
-    }
-  ]
-}
 
 const initArticle = {
-  id: 0,
+  id: "",
   title: "",
   body: "",
+  url: "",
   user: {
-    id: 0,
+    id: "",
     name: "",
     profile_image_url: ""
   },
@@ -124,52 +26,53 @@ const initArticle = {
   loading: false
 }
 
-const getArticleSample = (): Promise<Response> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const article = mockQiitaData;
-      const response = new Response(JSON.stringify(article), {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      resolve(response)
-    }, 1000)
-  })
-}
+// TOKEN: 51701cc44eb209a093ba218ebc86af0d63c1803e
+// sample: curl -H 'Authorization: Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e' 'https://qiita.com/api/v2/authenticated_user/items'
 
 export const BlogComponent: React.FC = () => {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<Article[]>([]);
-  const [list, setList] = useState<Article[]>([]);
+  const [data, setData] = useState<qiitaItemsResponse[]>([]);
+  const [list, setList] = useState<qiitaItemsResponse[]>([]);
+
+  const getQiitaArticles = async () => {
+    try {
+      // API を呼び出してデータを取得
+      const response: AxiosResponse<qiitaItemsResponse[]> = await axios.get('https://qiita.com/api/v2/authenticated_user/items', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
+        }
+      });
+      const data = response.data;
+      console.log('data', data)
+      setData(data);
+      setInitLoading(false);
+      return data;
+    } catch (e) {
+      console.error('記事取得失敗', e);
+    }
+  }
 
   // TODO: この辺りの処理はhookに切り出す
   useEffect(() => {
-    getArticleSample()
-      .then((res) => res.json())
-      .then((res) => {
-        setInitLoading(false);
-        setData(res.items);
-        setList(res.items);
-      });
+    getQiitaArticles();
   }, []);
 
-  const onLoadMore = () => {
+  const onLoadMore = async () => {
     setLoading(true);
+    const qiitaArticlesItems = await getQiitaArticles();
+    console.log('onLoadMore', qiitaArticlesItems);
     setList(
       data.concat([...new Array(count)].map(() => (initArticle))),
     );
-    getArticleSample()
-      .then((res) => res.json())
+    getQiitaArticles()
       .then((res) => {
-        const newData = data.concat(res.items);
+        if (res === undefined) return;
+        const newData = data.concat(res);
         setData(newData);
         setList(newData);
         setLoading(false);
-        // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-        // In real scene, you can using public method of react-virtualized:
-        // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
         window.dispatchEvent(new Event('resize'));
       });
   };
@@ -196,22 +99,27 @@ export const BlogComponent: React.FC = () => {
         loading={initLoading}
         itemLayout="horizontal"
         loadMore={loadMore}
-        dataSource={list}
+        dataSource={data}
         style={{ width: '70%', margin: '0 auto' }}
         renderItem={(item) => (
           <List.Item>
-            <Skeleton avatar title={false} loading={item.loading} active>
+            <Skeleton
+              avatar
+              title={false}
+              loading={false}
+              active
+              >
               <List.Item.Meta
                 avatar={<Avatar src={item.user.profile_image_url} />}
                 // TODO: バックエンド実装後リンクを記事のものに変更する
-                title={<a href="https://ant.design">{item.title}</a>}
+                title={<a href={item.url} target='_blank' rel="noreferrer">{item.title}</a>}
                 description="Ant Design, a design language for background applications, is refined by Ant UED Team"
               />
               {/* ここにタグを表示する */}
               {item.tags.map((tag) => {
-                return <div>{tag}/</div>
+                return <div>{tag.name}/</div>
               })}
-            </Skeleton>
+              </Skeleton>
           </List.Item>
         )}
       />
