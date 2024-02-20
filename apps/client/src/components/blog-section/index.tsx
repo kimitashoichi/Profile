@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Layout, List, Skeleton, Typography } from 'antd';
 import { qiitaItemsResponse } from '../../schema/index';
-import { SafeParseSuccess } from 'zod';
 import axios, { AxiosResponse } from 'axios';
 
 const { Title } = Typography;
@@ -32,13 +31,17 @@ const initArticle = {
 export const BlogComponent: React.FC = () => {
   const [initLoading, setInitLoading] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<qiitaItemsResponse[]>([]);
+  const [item, setItem] = useState<qiitaItemsResponse[]>([]);
   const [list, setList] = useState<qiitaItemsResponse[]>([]);
 
+  // TODO: この辺りの処理はhookに切り出す
   const getQiitaArticles = async () => {
     try {
       // API を呼び出してデータを取得
-      const response: AxiosResponse<qiitaItemsResponse[]> = await axios.get('https://qiita.com/api/v2/authenticated_user/items', {
+      const count = item.length;
+      const response: AxiosResponse<qiitaItemsResponse[]> = await axios.get(
+        `https://qiita.com/api/v2/authenticated_user/items?per_page=${count + 3}`,
+      {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
@@ -46,7 +49,8 @@ export const BlogComponent: React.FC = () => {
       });
       const data = response.data;
       console.log('data', data)
-      setData(data);
+      setItem(data);
+      setList(data);
       setInitLoading(false);
       return data;
     } catch (e) {
@@ -54,7 +58,6 @@ export const BlogComponent: React.FC = () => {
     }
   }
 
-  // TODO: この辺りの処理はhookに切り出す
   useEffect(() => {
     getQiitaArticles();
   }, []);
@@ -64,19 +67,19 @@ export const BlogComponent: React.FC = () => {
     const qiitaArticlesItems = await getQiitaArticles();
     console.log('onLoadMore', qiitaArticlesItems);
     setList(
-      data.concat([...new Array(count)].map(() => (initArticle))),
+      item.concat([...new Array(count)].map(() => (initArticle))),
     );
     getQiitaArticles()
       .then((res) => {
         if (res === undefined) return;
-        const newData = data.concat(res);
-        setData(newData);
-        setList(newData);
+        setItem(res);
+        setList(res);
         setLoading(false);
         window.dispatchEvent(new Event('resize'));
       });
   };
 
+  // TODO: 記事の最大数を取得した後は表示しないように変更する
   const loadMore =
     !initLoading && !loading ? (
       <div
@@ -99,7 +102,7 @@ export const BlogComponent: React.FC = () => {
         loading={initLoading}
         itemLayout="horizontal"
         loadMore={loadMore}
-        dataSource={data}
+        dataSource={list}
         style={{ width: '70%', margin: '0 auto' }}
         renderItem={(item) => (
           <List.Item>
