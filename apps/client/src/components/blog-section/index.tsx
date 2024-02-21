@@ -33,6 +33,7 @@ export const BlogComponent: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [item, setItem] = useState<qiitaItemsResponse[]>([]);
   const [list, setList] = useState<qiitaItemsResponse[]>([]);
+  const [show, setShow] = useState(true)
 
   // TODO: この辺りの処理はhookに切り出す
   const getQiitaArticles = async () => {
@@ -41,12 +42,12 @@ export const BlogComponent: React.FC = () => {
       const count = item.length;
       const response: AxiosResponse<qiitaItemsResponse[]> = await axios.get(
         `https://qiita.com/api/v2/authenticated_user/items?per_page=${count + 3}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
-        }
-      });
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
+          }
+        });
       const data = response.data;
       console.log('data', data)
       setItem(data);
@@ -58,14 +59,36 @@ export const BlogComponent: React.FC = () => {
     }
   }
 
+  // 記事の全体数取得
+  const setItemCount = async () => {
+    const response: AxiosResponse<qiitaItemsResponse[]> = await axios.get(
+      'https://qiita.com/api/v2/authenticated_user/items',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
+        }
+      });
+    const data = response.data;
+    localStorage.setItem('count', String(data.length));
+  }
+
   useEffect(() => {
     getQiitaArticles();
+    setItemCount();
   }, []);
+
+  useEffect(() => {
+    if (
+      Number(localStorage.getItem('count')) === list.length &&
+      !initLoading && !loading
+    ) {
+      setShow(false);
+    }
+  }, [list])
 
   const onLoadMore = async () => {
     setLoading(true);
-    const qiitaArticlesItems = await getQiitaArticles();
-    console.log('onLoadMore', qiitaArticlesItems);
     setList(
       item.concat([...new Array(count)].map(() => (initArticle))),
     );
@@ -79,20 +102,18 @@ export const BlogComponent: React.FC = () => {
       });
   };
 
-  // TODO: 記事の最大数を取得した後は表示しないように変更する
-  const loadMore =
-    !initLoading && !loading ? (
-      <div
-        style={{
-          textAlign: 'center',
-          marginTop: 12,
-          height: 32,
-          lineHeight: '32px',
-        }}
-      >
-        <Button onClick={onLoadMore}>loading more</Button>
-      </div>
-    ) : null;
+  const loadMore = !initLoading && !loading && show ? (
+    <div
+      style={{
+        textAlign: 'center',
+        marginTop: 12,
+        height: 32,
+        lineHeight: '32px',
+      }}
+    >
+      <Button onClick={onLoadMore}>loading more</Button>
+    </div>
+  ) : null;
 
   return (
     <Layout id='blogs'>
@@ -111,10 +132,9 @@ export const BlogComponent: React.FC = () => {
               title={false}
               loading={false}
               active
-              >
+            >
               <List.Item.Meta
                 avatar={<Avatar src={item.user.profile_image_url} />}
-                // TODO: バックエンド実装後リンクを記事のものに変更する
                 title={<a href={item.url} target='_blank' rel="noreferrer">{item.title}</a>}
                 description="Ant Design, a design language for background applications, is refined by Ant UED Team"
               />
@@ -122,7 +142,7 @@ export const BlogComponent: React.FC = () => {
               {item.tags.map((tag) => {
                 return <div>{tag.name}/</div>
               })}
-              </Skeleton>
+            </Skeleton>
           </List.Item>
         )}
       />
