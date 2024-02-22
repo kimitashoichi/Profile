@@ -1,7 +1,6 @@
-import React from 'react'
 import { Layout, Col, Row, Image, Typography } from 'antd'
 import useMediaQuery from 'use-media-antd-query';
-
+import profile from '../../assets/images/profile.png'
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -24,7 +23,7 @@ export const Top = () => {
           </Col>
           <Col xl={8} lg={8} offset={colSize === 'lg' || colSize === 'xl' ? 1 : 0}>
             <Image
-              src='/profile.png'
+              src={profile}
               preview={false}
               style={{ borderRadius: '32px' }}
             />
