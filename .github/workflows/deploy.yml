@@ -20,17 +20,16 @@ jobs:
           echo "REACT_APP_QIITA_API_KEY=${REACT_APP_QIITA_API_KEY}" > apps/client/.env
 
       - name: Build Apps
-        run:
-          cd apps/client/
-          pnpm install
-          npm run build
+        run: |
+          cd apps/client/ && \
+          pnpm install && \
+          npm run build && \
           cd ../../
-      
+
       - name: Copy Deploy Files
-        run:
-          cp -r apps/client/build/ docs/
-      
+        run: cp -r apps/client/build/ docs/
+
       - name: Deploy
-        run:
-          cd apps/client/
+        run: |
+          cd apps/client/ && \
           npm run deploy
