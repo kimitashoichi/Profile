@@ -29,7 +29,7 @@ export const ContactComponent = () => {
   } = useForm();
 
   const postMessage = async (data: any) => {
-    fetch('http://localhost:3001/sendToSlack', {
+    fetch('https://new-express-project-navy.vercel.app/sendToSlack', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
