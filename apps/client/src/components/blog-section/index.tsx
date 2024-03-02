@@ -49,7 +49,6 @@ export const BlogComponent: React.FC = () => {
           }
         });
       const data = response.data;
-      console.log('data', data)
       setItem(data);
       setList(data);
       setInitLoading(false);

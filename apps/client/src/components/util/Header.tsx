@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { Layout } from 'antd';
-import { MenuProps, Menu, Drawer, Button } from 'antd';
-import { CodeOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Layout, MenuProps, Menu, Drawer, Button, Space } from 'antd';
+import { CodeOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined, TwitterOutlined, GithubOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
 import { scroller } from 'react-scroll';
 
@@ -42,7 +41,6 @@ export const HeaderComponent = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   // "xs" | "sm" | "md" | "lg" | "xl" | "xxl"
   const colSize = useMediaQuery();
-  console.log(colSize)
 
   const handleClick = (e: any) => {
     const itemId = e.key;
@@ -59,6 +57,10 @@ export const HeaderComponent = () => {
       smooth: "easeInOutQuart",
       offset: -46
     });
+  }
+
+  const handleOpenWindow = (url: string) => {
+    window.open(url, '_blank');
   }
 
   const toggleDrawer = () => {
@@ -81,7 +83,21 @@ export const HeaderComponent = () => {
               position: 'absolute',
               top: 0
             }}
-          >Shoichi Kimita</div>
+          >
+            <Space>
+              Shoichi Kimita
+              <Button
+                shape="circle"
+                icon={<TwitterOutlined />}
+                onClick={() => handleOpenWindow('https://twitter.com/kimi_koma1111')}
+              />
+              <Button
+                shape='circle'
+                icon={<GithubOutlined />}
+                onClick={() => handleOpenWindow('https://github.com/kimitashoichi')}
+              />
+            </Space>
+          </div>
           <Menu
             mode="horizontal"
             items={items}
@@ -106,7 +122,21 @@ export const HeaderComponent = () => {
               top: 0,
               right: 16
             }}
-          >Shoichi Kimita</div>
+          >
+            <Space>
+              Shoichi Kimita
+              <Button
+                shape="circle"
+                icon={<TwitterOutlined />}
+                onClick={() => handleOpenWindow('https://twitter.com/kimi_koma1111')}
+              />
+              <Button
+                shape='circle'
+                icon={<GithubOutlined />}
+                onClick={() => handleOpenWindow('https://github.com/kimitashoichi')}
+              />
+            </Space>
+          </div>
           <Drawer
             title="Menu"
             placement="left"
