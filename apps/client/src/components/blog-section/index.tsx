@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Layout, List, Skeleton, Typography } from 'antd';
+import { Avatar, Button, Layout, List, Skeleton, Typography, Tag } from 'antd';
 import { qiitaItemsResponse } from '../../schema/index';
 import axios, { AxiosResponse } from 'axios';
 
@@ -116,14 +116,14 @@ export const BlogComponent: React.FC = () => {
 
   return (
     <Layout id='blogs'>
-      <Title style={{ width: '70%', margin: '1em auto' }}>Blogs</Title>
+      <Title style={{ width: '90%', margin: '24px auto 0' }}>Blogs</Title>
       <List
         className="demo-loadmore-list"
         loading={initLoading}
         itemLayout="horizontal"
         loadMore={loadMore}
         dataSource={list}
-        style={{ width: '70%', margin: '0 auto' }}
+        style={{ width: '90%', margin: '24px auto 0' }}
         renderItem={(item) => (
           <List.Item>
             <Skeleton
@@ -135,12 +135,10 @@ export const BlogComponent: React.FC = () => {
               <List.Item.Meta
                 avatar={<Avatar src={item.user.profile_image_url} />}
                 title={<a href={item.url} target='_blank' rel="noreferrer">{item.title}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                description={item.tags.map((tag) => {
+                  return <Tag color="blue">{tag.name}</Tag>
+                })}
               />
-              {/* ここにタグを表示する */}
-              {item.tags.map((tag) => {
-                return <div>{tag.name}/</div>
-              })}
             </Skeleton>
           </List.Item>
         )}
