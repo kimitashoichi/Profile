@@ -1,8 +1,10 @@
-import React from 'react';
+import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Form, Input, Typography, Row, Col, Layout } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
+import axios from 'axios';
+
 
 
 // TODO: React Hook　Formでフォーム作成
@@ -22,14 +24,54 @@ interface FormValue {
 
 export const ContactComponent = () => {
   const colSize = useMediaQuery();
+  const [data, setData] = useState();
   const {
     control,
     handleSubmit
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const postMessage = async (data: any) => {
+    fetch('https://profile-api-83e3f.firebaseapp.com/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: data.email })
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Slackに通知が送信されました');
+        } else {
+          console.error('Slackへの通知に失敗しました');
+        }
+      })
+      .catch(error => {
+        console.error('Slackへの通知中にエラーが発生しました:', error);
+      });
   }
+
+  const postContact = async (data: any) => {
+    try {
+      const webhookUrl = 'https://hooks.slack.com/services/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';
+
+      await axios.post(webhookUrl, {
+        text: data,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        }
+      });
+
+      console.log('Slack通知が送信されました');
+    } catch (error) {
+      console.error('Slack通知の送信中にエラーが発生しました:', error);
+    }
+  };
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    postContact(data);
+    postMessage(data);
+  };
 
   return (
     <Layout id='contact'>

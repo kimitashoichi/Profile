@@ -45,7 +45,7 @@ export const BlogComponent: React.FC = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
+            'Authorization': `Bearer ${process.env.REACT_APP_QIITA_API_KEY}`
           }
         });
       const data = response.data;
@@ -66,7 +66,7 @@ export const BlogComponent: React.FC = () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 51701cc44eb209a093ba218ebc86af0d63c1803e'
+          'Authorization': `Bearer ${process.env.REACT_APP_QIITA_API_KEY}`
         }
       });
     const data = response.data;

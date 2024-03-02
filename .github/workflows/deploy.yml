@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - client # デプロイするブランチ
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up environment variables
+        env:
+          REACT_APP_QIITA_API_KEY: ${{ secrets.QIITA_API_KEY }}
+        run: |
+          echo "REACT_APP_QIITA_API_KEY=${REACT_APP_QIITA_API_KEY}" > apps/client/.env
+
+      - name: Build Apps
+        run: |
+          cd apps/client/ && \
+          pnpm install && \
+          npm run build && \
+          cd ../../
+
+      - name: Copy Deploy Files
+        run: cp -r apps/client/build/ docs/
+
+      - name: Deploy
+        run: |
+          cd apps/client/ && \
+          npm run deploy
