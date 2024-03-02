@@ -3,8 +3,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { Button, Form, Input, Typography, Row, Col, Layout } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
-import axios from 'axios';
-
 
 
 // TODO: React Hook　Formでフォーム作成
@@ -31,14 +29,15 @@ export const ContactComponent = () => {
   } = useForm();
 
   const postMessage = async (data: any) => {
-    fetch('https://profile-api-83e3f.firebaseapp.com/', {
+    fetch('http://localhost:3001/sendToSlack', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ text: data.email })
+      body: JSON.stringify({ data: data.email })
     })
       .then(response => {
+        console.log('res', response)
         if (response.ok) {
           console.log('Slackに通知が送信されました');
         } else {
@@ -50,26 +49,8 @@ export const ContactComponent = () => {
       });
   }
 
-  const postContact = async (data: any) => {
-    try {
-      const webhookUrl = 'https://hooks.slack.com/services/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';
-
-      await axios.post(webhookUrl, {
-        text: data,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        }
-      });
-
-      console.log('Slack通知が送信されました');
-    } catch (error) {
-      console.error('Slack通知の送信中にエラーが発生しました:', error);
-    }
-  };
-
   const onSubmit = (data: any) => {
     console.log(data);
-    postContact(data);
     postMessage(data);
   };
 
