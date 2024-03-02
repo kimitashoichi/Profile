@@ -28,13 +28,30 @@ export const ContactComponent = () => {
     handleSubmit
   } = useForm();
 
+  const buildSlackMessage = (data: any) => {
+    const company = data.company ?? '会社名なし';
+    const email = data.email
+    const message = data.message
+    const name = data.name
+    const phone = data.phone
+
+    return `
+会社名: ${company}\n
+メール: ${email}\n
+内容: ${message}\n
+名前: ${name}\n
+電話: ${phone}
+    `;
+  }
+
   const postMessage = async (data: any) => {
+    const message = buildSlackMessage(data);
     fetch('https://new-express-project-navy.vercel.app/sendToSlack', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ data: data.email })
+      body: JSON.stringify({ data: message })
     })
       .then(response => {
         console.log('res', response)
