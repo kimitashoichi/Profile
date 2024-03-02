@@ -115,6 +115,11 @@ export const HeaderComponent = () => {
             onClick={toggleDrawer}
             shape="round"
             icon={<MenuUnfoldOutlined />}
+            style={{
+              position: 'absolute',
+              top: 15,
+              left: 15
+            }}
           />
           <div
             style={{
