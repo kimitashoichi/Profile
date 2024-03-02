@@ -1,12 +1,7 @@
-import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Form, Input, Typography, Row, Col, Layout } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
-
-
-// TODO: React Hook　Formでフォーム作成
-// sendgridを利用して自分のGメールに転送するAPIを作成
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -15,20 +10,19 @@ interface FormValue {
   name: string;
   email: string;
   phone: number;
-  company: string;
+  company: string | undefined;
   message: string;
 }
 
 
 export const ContactComponent = () => {
   const colSize = useMediaQuery();
-  const [data, setData] = useState();
   const {
     control,
     handleSubmit
   } = useForm();
 
-  const buildSlackMessage = (data: any) => {
+  const buildSlackMessage = (data: FormValue) => {
     const company = data.company ?? '会社名なし';
     const email = data.email
     const message = data.message
@@ -54,9 +48,7 @@ export const ContactComponent = () => {
       body: JSON.stringify({ data: message })
     })
       .then(response => {
-        console.log('res', response)
         if (response.ok) {
-          console.log('Slackに通知が送信されました');
         } else {
           console.error('Slackへの通知に失敗しました');
         }
@@ -67,7 +59,6 @@ export const ContactComponent = () => {
   }
 
   const onSubmit = (data: any) => {
-    console.log(data);
     postMessage(data);
   };
 
