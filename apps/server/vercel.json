@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api": {
+      "source": "api/app.js"
+    }
+  }
+}
