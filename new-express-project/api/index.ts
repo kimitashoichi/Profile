@@ -12,11 +12,11 @@ app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.post('/sendToSlack', async (req, res) => {
   const { data } = req.body;
-  console.log('data', data)
+  const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL || '';
 
   try {
     // Slackにメッセージを送信するためのfetchリクエストを作成
-    const response = await fetch('https://hooks.slack.com/services/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', {
+    const response = await fetch(SLACK_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
