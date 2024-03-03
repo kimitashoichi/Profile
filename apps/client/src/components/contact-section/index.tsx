@@ -1,5 +1,5 @@
-import { useForm, Controller } from 'react-hook-form';
-import { Button, Form, Input, Typography, Row, Col, Layout } from 'antd';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { Button, Form, Input, Typography, Row, Col, Layout, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
 
@@ -14,13 +14,38 @@ interface FormValue {
   message: string;
 }
 
+const resetValue = {
+  name: "",
+  email: "",
+  phone: 0,
+  company: "",
+  message: ""
+}
+
 
 export const ContactComponent = () => {
   const colSize = useMediaQuery();
+  const [messageApi, contextHolder] = message.useMessage();
   const {
     control,
-    handleSubmit
-  } = useForm();
+    handleSubmit,
+    reset,
+  } = useForm<FormValue>();
+
+
+  const successMessage = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'お問い合わせを送信しました',
+    });
+  };
+
+  const errorMessage = () => {
+    messageApi.open({
+      type: 'error',
+      content: 'お問い合わせを送信できませんでした。再度お試しください。',
+    });
+  };
 
   const buildSlackMessage = (data: FormValue) => {
     const company = data.company ?? '会社名なし';
@@ -38,32 +63,38 @@ export const ContactComponent = () => {
     `;
   }
 
-  const postMessage = async (data: any) => {
+  const postMessage = async (data: FormValue) => {
     const message = buildSlackMessage(data);
-    fetch('https://new-express-project-navy.vercel.app/sendToSlack', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ data: message })
-    })
-      .then(response => {
-        if (response.ok) {
-        } else {
-          console.error('Slackへの通知に失敗しました');
-        }
-      })
-      .catch(error => {
-        console.error('Slackへの通知中にエラーが発生しました:', error);
+    try {
+      const response = await fetch('https://new-express-project-navy.vercel.app/sendToSlack', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ data: message })
       });
+
+      if (response.ok) {
+        successMessage();
+        console.log('成功');
+        reset();
+      } else {
+        errorMessage();
+        console.error('Slackへの通知に失敗しました');
+      }
+    } catch (error) {
+      console.error('Slackへの通知中にエラーが発生しました:', error);
+      errorMessage();
+    }
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormValue) => {
     postMessage(data);
   };
 
   return (
     <Layout id='contact'>
+      {contextHolder}
       <Form
         onFinish={handleSubmit(onSubmit)}
         layout="vertical"
@@ -116,10 +147,8 @@ export const ContactComponent = () => {
             <Controller
               control={control}
               name='email'
-              rules={{
-                required: true,
-
-              }}
+              rules={{ required: true }}
+              defaultValue="sss"
               render={({ field, fieldState: { error } }) => (
                 <Form.Item
                   label='メールアドレス'
