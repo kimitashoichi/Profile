@@ -1,7 +1,8 @@
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Button, Form, Input, Typography, Row, Col, Layout, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
+import { useState } from 'react';
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -14,24 +15,14 @@ interface FormValue {
   message: string;
 }
 
-const resetValue = {
-  name: "",
-  email: "",
-  phone: 0,
-  company: "",
-  message: ""
-}
-
-
 export const ContactComponent = () => {
   const colSize = useMediaQuery();
+  const [resetForm, setResetForm] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const {
     control,
     handleSubmit,
-    reset,
   } = useForm<FormValue>();
-
 
   const successMessage = () => {
     messageApi.open({
@@ -76,8 +67,6 @@ export const ContactComponent = () => {
 
       if (response.ok) {
         successMessage();
-        console.log('成功');
-        reset();
       } else {
         errorMessage();
         console.error('Slackへの通知に失敗しました');
@@ -90,6 +79,7 @@ export const ContactComponent = () => {
 
   const onSubmit = (data: FormValue) => {
     postMessage(data);
+    setResetForm(true);
   };
 
   return (
@@ -148,7 +138,6 @@ export const ContactComponent = () => {
               control={control}
               name='email'
               rules={{ required: true }}
-              defaultValue="sss"
               render={({ field, fieldState: { error } }) => (
                 <Form.Item
                   label='メールアドレス'
