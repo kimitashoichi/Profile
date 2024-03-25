@@ -23,12 +23,6 @@ const LANGUAGE_LIST = [
     work: ['toB WEBアプリケーションのフロント(SPA)開発', 'toB WEBアプリケーションのAPI開発']
   },
   {
-    name: 'Python',
-    percent: 50,
-    experience: 1,
-    work: ['社内業務効率化のためのシステム開発']
-  },
-  {
     name: 'MySQL',
     percent: 50,
     experience: 1,
@@ -117,7 +111,6 @@ export const SkillMapComponent = () => {
             return (
               <Col xs={24} lg={8} style={style}>
 
-                {/* TODO: スキル表示コンポーネントに切り出す */}
                 <Flex>
                   <Progress
                     percent={item.percent}
