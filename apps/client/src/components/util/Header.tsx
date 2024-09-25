@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import { Layout, MenuProps, Menu, Drawer, Button, Space } from 'antd';
-import { CodeOutlined, ReadOutlined, AlertOutlined, MailOutlined, MenuOutlined, MenuUnfoldOutlined, TwitterOutlined, GithubOutlined } from '@ant-design/icons';
+import {
+  CodeOutlined,
+  ReadOutlined,
+  AlertOutlined,
+  MailOutlined,
+  MenuOutlined,
+  MenuUnfoldOutlined,
+  TwitterOutlined,
+  GithubOutlined,
+  BookOutlined
+} from '@ant-design/icons';
 import useMediaQuery from 'use-media-antd-query';
 import { scroller } from 'react-scroll';
 
@@ -96,6 +106,11 @@ export const HeaderComponent = () => {
                 icon={<GithubOutlined />}
                 onClick={() => handleOpenWindow('https://github.com/kimitashoichi')}
               />
+              <Button
+                shape='circle'
+                icon={<BookOutlined />}
+                onClick={() => handleOpenWindow('https://speakerdeck.com/kimitashoichi')}
+              />
             </Space>
           </div>
           <Menu
@@ -139,6 +154,11 @@ export const HeaderComponent = () => {
                 shape='circle'
                 icon={<GithubOutlined />}
                 onClick={() => handleOpenWindow('https://github.com/kimitashoichi')}
+              />
+              <Button
+                shape='circle'
+                icon={<BookOutlined />}
+                onClick={() => handleOpenWindow('https://speakerdeck.com/kimitashoichi')}
               />
             </Space>
           </div>
